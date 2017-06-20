@@ -15,22 +15,23 @@ def install_order(arr)
 
   arr.each do |el|
     unless graph.any?{|vert| vert.value == el[0]}
-      cur_vert = graph.push(Vertex.new(el[0]))
+      graph.push(Vertex.new(el[0]))
     end
-    cur_vert ||= graph.select{|vert| vert.value == el[0]}
+    cur_vert = graph.select{|vert| vert.value == el[0]}
+    
     unless graph.any?{|vert| vert.value == el[1]}
-      dep_vert = graph.push(Vertex.new(el[1]))
+      graph.push(Vertex.new(el[1]))
     end
-      dep_vert ||= graph.select{|vert| vert.value == el[1]}
+      dep_vert = graph.select{|vert| vert.value == el[1]}
       Edge.new(dep_vert[0], cur_vert[0])
   end
   contiguity = graph.map{|el| el.value}.sort
   (1..contiguity.last).each do |id|
     graph.push(Vertex.new(id)) if contiguity.index(id).nil?
   end
-  p graph.map{|el| "#{el.value}:#{el.out_edges.length}"}
+  # p graph.map{|el| "#{el.value}:#{el.out_edges.length}"}
 
   sorted = topological_sort(graph)
-  p sorted.map{|el| el.value}
+  p sorted.map {|el| el.value}.uniq
 
 end
