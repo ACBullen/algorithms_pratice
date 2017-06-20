@@ -30,7 +30,7 @@ class BinarySearchTree
     end
 
     value
-  end
+  end 
 
   def find(value, tree_node = @root)
     return nil if tree_node == nil
