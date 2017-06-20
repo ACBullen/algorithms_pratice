@@ -9,13 +9,25 @@ class Vertex
 end
 
 class Edge
+  attr_reader :to_vertex, :from_vertex
+  attr_accessor :cost
   def initialize(from_vertex, to_vertex, cost = 1)
     @from_vertex = from_vertex
     @to_vertex = to_vertex
     @cost = cost
+
+    @to_vertex.in_edges << self
+    @from_vertex.out_edges << self
   end
 
   def destroy!
+    @from_vertex.out_edges.delete(self)
+    @from_vertex.out_edges.compact
+    
+    @to_vertex.in_edges.delete(self)
+    @to_vertex.in_edges.compact
 
+    @from_vertex = nil
+    @to_vertex = nil
   end
 end
